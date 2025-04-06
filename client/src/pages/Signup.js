@@ -1,19 +1,20 @@
 import React, { useContext, useState } from "react";
 import AuthContext from "../context/AuthContext";
 
-const Login = () => {
+const Signup = () => {
 
-    const { login } = useContext(AuthContext);
+    const { signup } = useContext(AuthContext);
 
+    const [ name, setName ] = useState("");
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
     const [ error, setError ] = useState("");
 
-    const handleLogin = async (e) => {
+    const handleSignup = async (e) => {
         e.preventDefault();
         try {
-            await login(email, password);
-            console.log("Login effettuato con successo");
+            await signup(name, email, password);
+            console.log("Registrazione effettuata con successo");
         } catch (error) {
             setError(error.message);
         }
@@ -21,9 +22,15 @@ const Login = () => {
 
     return (
         <div>
-            <h2>Login</h2>
+            <h2>Signup</h2>
             {error && <p>{error}</p>}
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleSignup}>
+                <input 
+                    type="text" 
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Nome Utente" 
+                    required/>
                 <input 
                     type="email" 
                     value={email}
@@ -36,11 +43,11 @@ const Login = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Password" 
                     required/>
-                <button type="submit">Login</button>            
+                <button type="submit">Registrati</button>            
             </form>
-            <a href="/signup">Non hai un account? Registrati.</a>
+            <a href="/login">Hai già un account? Accedi.</a>
         </div>
     );
 };
 
-export default Login;
+export default Signup;

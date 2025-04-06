@@ -4,11 +4,11 @@ const User = require("../models/user");
 
 const JWT_SECRET = "secret";
 
-exports.register = async (req, res) => {
+exports.signup = async (req, res) => {
     try {
         const { nome, email, password } = req.body;
 
-        console.log("Tentativo di registrazione:", { nome, email });
+        console.log("Tentativo di registrazione:", { nome, email, password });
 
         if (!nome || !email || !password) {
             console.warn("Campi mancanti durante la registrazione");

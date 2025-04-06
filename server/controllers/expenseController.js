@@ -5,7 +5,7 @@ const Trip = require("../models/trip");
 // Creazione di una spesa
 exports.createExpense = async (req, res) => {
     try {
-        
+        console.log("Tentativo di creazione spesa:", req.body);
     } catch (error) {
         console.error("Errore durante la creazione della spesa:", error);
         res.status(500).json({ error: "Errore del server durante la creazione della spesa." });

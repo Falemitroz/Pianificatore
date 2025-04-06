@@ -1,7 +1,21 @@
+process.on('uncaughtException', (err) => {
+  console.error('🔴 Eccezione non catturata:', err);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('🔴 Reiezione non gestita:', reason);
+});
+
+
 const express = require('express');
 const db = require('./models');
 
 const app = express();
+
+// ✅ Middleware per CORS
+const cors = require('cors');
+
+app.use(cors());
 
 // ✅ LOG: Traccia ogni richiesta per debugging
 app.use((req, res, next) => {
@@ -36,5 +50,10 @@ db.sequelize.sync({ force: false })
     .catch((err) => console.error("Errore sincronizzazione database:", err));
 
 // Avvio del server
-const PORT = 5000;
+const PORT = 5001;
 app.listen(PORT, () => console.log(`Server avviato su http://localhost:${PORT}`));
+
+
+process.on('exit', (code) => {
+  console.log(`❌ Il processo Node è terminato con codice: ${code}`);
+});
