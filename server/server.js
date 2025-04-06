@@ -36,5 +36,5 @@ db.sequelize.sync({ force: false })
     .catch((err) => console.error("Errore sincronizzazione database:", err));
 
 // Avvio del server
-const PORT = 5000;
+const PORT = 5001;
 app.listen(PORT, () => console.log(`Server avviato su http://localhost:${PORT}`));
