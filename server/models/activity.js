@@ -11,7 +11,6 @@ const Activity = sequelize.define("Activity", {
     luogo: { type: DataTypes.STRING, allowNull: false }
 });
 
-// Associazione: Un'attività appartiene a un viaggio (Trip)
 Activity.belongsTo(Trip, { foreignKey: "itinerario_id" });
 
 module.exports = Activity;

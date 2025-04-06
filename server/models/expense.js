@@ -11,7 +11,6 @@ const Expense = sequelize.define("Expense", {
     categoria: { type: DataTypes.STRING, allowNull: true },
 });
 
-// Associazione: Una spesa appartiene a un viaggio (Trip) e a un utente (pagatore)
 Expense.belongsTo(Trip, { foreignKey: "itinerario_id" });
 Expense.belongsTo(User, { foreignKey: "pagatore_id" });
 
