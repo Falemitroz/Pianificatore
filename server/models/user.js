@@ -9,7 +9,4 @@ const User = sequelize.define("User", {
     password: { type: DataTypes.STRING, allowNull: false }
 });
 
-// Associazione: Un utente può avere molti viaggi
-User.hasMany(Trip, { foreignKey: "creatore_id" });
-
 module.exports = User;
