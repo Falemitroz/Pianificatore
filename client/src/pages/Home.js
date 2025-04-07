@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import ExpenseItem from '../components/ExpenseItem';
+import AuthContext from '../context/AuthContext';
 
 const Home = () => {
+
+    const { user } = useContext(AuthContext);
 
     return (
         <>
             <h1>Home</h1>
-            <a href='/login'>Accedi</a>
-            <a href='/dashboard'>Dashboard</a>
-            <button>{<ExpenseItem />}</button>
+            {user ? <a href='/dashboard'>Dashboard</a> : <a href='/login'>Accedi</a>}
+            
+            {/* <ExpenseItem /> */}
         </>
     );
 };

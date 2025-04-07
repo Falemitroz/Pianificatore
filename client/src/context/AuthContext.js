@@ -9,7 +9,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : { id: null, email: null };
+    return storedUser ? JSON.parse(storedUser) : { id: null, nome: null, email: null };
   });
 
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
       try {
         const decodedToken = jwtDecode(token);
         if (decodedToken.exp > Date.now() / 1000) {
-          setUser(JSON.parse(localStorage.getItem("user")) || { id: null, email: null });
+          setUser(JSON.parse(localStorage.getItem("user")) || null);
         } else {
           logout();
         }
@@ -39,10 +39,11 @@ export const AuthProvider = ({ children }) => {
       const res = await axios.post(`${baseURL}/login`, { email, password });
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
-        localStorage.setItem("user", JSON.stringify({ id: res.data.id, email: res.data.email }));
+        localStorage.setItem("user", JSON.stringify({ id: res.data.id, nome: res.data.nome, email: res.data.email }));
         setToken(res.data.token);
-        setUser({ id: res.data.id, email: res.data.email });
+        setUser({ id: res.data.id, nome: res.data.nome, email: res.data.email });
       }
+      navigate("/dashboard");
     } catch (error) {
         console.error("Errore durante il login:", error);
       throw error;
@@ -54,23 +55,27 @@ export const AuthProvider = ({ children }) => {
       const res = await axios.post(`${baseURL}/signup`, { nome, email, password });
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
-        setUser({ id: res.data.id, email: res.data.email });
+        setUser({ id: res.data.id, nome: res.data.nome, email: res.data.email });
       }
+      navigate("/dashboard");
     } catch (error) {
       throw error;
     }
   };
 
   const logout = async () => {
+    console.log("Logout");
     try {
-      await axios.post(`${baseURL}/logout`, {}, { withCredentials: true });
-  
+      await axios.post(`${baseURL}/logout`, {});
+        
+        console.log("Logout effettuato con successo");
+
       localStorage.removeItem("token");
       localStorage.removeItem("user");
+
+      console.log("Token e user rimossi da localStorage");
       setUser(null);
       setToken(null);
-      setUser({ id: null, email: null });
-      navigate("/");
     } catch (error) {
       console.error("Errore durante il logout:", error);
     }

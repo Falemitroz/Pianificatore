@@ -1,11 +1,13 @@
 import React from 'react';
-import UserProfile from '../components/UserProfile';
+// import UserProfile from '../components/UserProfile';
+import Navbar from '../components/Navbar';
+import TripList from '../components/TripList';
 
 const Dashboard = () => {
     return (
         <>
-            <UserProfile />
-            <a href='/trip-details'>TripDetails</a>
+            <Navbar />
+            <TripList />
         </>
     );
 };
