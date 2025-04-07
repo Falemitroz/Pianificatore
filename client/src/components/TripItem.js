@@ -4,7 +4,10 @@ import { Link } from "react-router-dom";
 const TripItem = ({ trip }) => {
   return (
     <li>
-      <strong>{trip.nome}</strong> – {trip.destinazione} (Partenza:{trip.dataInizio} Ritorno:{trip.dataFine})
+      <strong>{trip.nome}</strong> – {trip.destinazione}
+        (Partenza:{trip.dataInizio} 
+         Ritorno:{trip.dataFine}
+         Budget:{trip.budget})
       <button><Link to={`/trip-details/${trip.id}`}>Vai ai dettagli</Link></button>
     </li>
   );

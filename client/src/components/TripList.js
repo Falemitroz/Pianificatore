@@ -7,7 +7,7 @@ const TripList = () => {
   const { user, getTrips } = useContext(AuthContext);
   const [trips, setTrips] = useState([]);
   const [newTrip, setNewTrip] = useState(
-    { nome: "", creatore: "", destinazione: "", dataInizio: "", dataFine: "" });
+    { nome: "", creatore: "", destinazione: "", dataInizio: "", dataFine: "", budget: "" });
   const navigate = useNavigate();
 
   // 🔄 useEffect per caricare i dati una volta sola al montaggio
@@ -37,13 +37,14 @@ const TripList = () => {
         destinazione: newTrip.destinazione,
         dataInizio: newTrip.dataInizio,
         dataFine: newTrip.dataFine,
+        budget: newTrip.budget
       };
 
       // Aggiungi il nuovo viaggio alla lista
       setTrips([...trips, nuovoViaggio]);
 
       // Pulisci i campi di input
-      setNewTrip({ nome: "", creatore: "", destinazione: "", dataInizio: "", dataFine: "" });
+      setNewTrip({ nome: "", creatore: "", destinazione: "", dataInizio: "", dataFine: "", budget: "" });
     }
   };
 
@@ -57,24 +58,35 @@ const TripList = () => {
         placeholder="Nome del viaggio"
         value={newTrip.nome}
         onChange={(e) => setNewTrip({ ...newTrip, nome: e.target.value })}
+        required
       />
       <input
         type="text"
         placeholder="Destinazione"
         value={newTrip.destinazione}
         onChange={(e) => setNewTrip({ ...newTrip, destinazione: e.target.value })}
+        required
       />
       <input
         type="text"
         placeholder="Partenza"
-        value={newTrip.data}
+        value={newTrip.dataInizio}
         onChange={(e) => setNewTrip({ ...newTrip, dataInizio: e.target.value })}
+        required
       />
       <input
         type="text"
         placeholder="Ritorno"
-        value={newTrip.data}
+        value={newTrip.dataFine}
         onChange={(e) => setNewTrip({ ...newTrip, dataFine: e.target.value })}
+        required
+      />
+      <input
+        type="integer"
+        placeholder="Budget"
+        value={newTrip.budget}
+        onChange={(e) => setNewTrip({ ...newTrip, budget: e.target.value })}
+        required
       />
       <button onClick={handleAddTrip}>Aggiungi Viaggio</button>
 

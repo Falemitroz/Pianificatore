@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import {createExpense} from "../services/api";
+import { createTrip, getTrips} from "../services/api";
 import axios from "axios";
 
 const AuthContext = createContext();
@@ -9,7 +9,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : { id: null, nome: null, email: null };
+    return storedUser ? JSON.parse(storedUser) : null;
   });
 
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -97,7 +97,8 @@ export const AuthProvider = ({ children }) => {
     login,
     signup,
     logout,
-    createExpense: (expenseData) => handleAction(createExpense, expenseData),
+    createTrip: (TripData) => handleAction(createTrip, TripData),
+    getTrips: () => handleAction(getTrips),
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
