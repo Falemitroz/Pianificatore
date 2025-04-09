@@ -1,9 +1,18 @@
 const Trip = require("../models/trip");
 const User = require("../models/user");
 
+const authorization = (userId) => {
+    if(!userId) {
+        return res.status(401).json({ error:"Non autorizzato"});
+    }
+}
+
 // Creazione di un viaggio
 exports.createTrip = async (req, res) => {
     try {
+        const userId= req.userId;
+        const {nome, creatore, destinazione, dataInizio, dataFine, budget } = req.body;
+        const newTask = await Task.create({nome, creatore, destinazione, dataInizio, dataFine, budget })
         
     } catch (error) {
         console.error("Errore durante la creazione del viaggio:", error);
