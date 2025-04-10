@@ -50,12 +50,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const signup = async (nome, email, password) => {
+  const signup = async (nome, eta, email, password) => {
     try {
-      const res = await axios.post(`${baseURL}/signup`, { nome, email, password });
+      const res = await axios.post(`${baseURL}/signup`, { nome, eta, email, password });
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
-        setUser({ id: res.data.id, nome: res.data.nome, email: res.data.email });
+        setUser({ id: res.data.id,
+                  nome: res.data.nome, 
+                  eta:res.data.eta, 
+                  email: res.data.email });
       }
       navigate("/dashboard");
     } catch (error) {
@@ -97,7 +100,7 @@ export const AuthProvider = ({ children }) => {
     login,
     signup,
     logout,
-    createTrip: (TripData) => handleAction(createTrip, TripData),
+    createTrip: (tripData) => handleAction(createTrip, tripData),
     getTrips: () => handleAction(getTrips),
   };
 

@@ -1,16 +1,16 @@
-const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const User = require("../models/user");
 
-const JWT_SECRET = "secret";
+const JWT_SECRET = process.env.JWT_SECRET || "supersecret";
 
 exports.signup = async (req, res) => {
     try {
-        const { nome, email, password } = req.body;
+        const { nome, eta, email, password } = req.body;
 
-        console.log("Tentativo di registrazione:", { nome, email, password });
+        console.log("Tentativo di registrazione:", { nome, eta, email, password });
 
-        if (!nome || !email || !password) {
+        if (!nome || !eta || !email || !password) {
             console.warn("Campi mancanti durante la registrazione");
             return res.status(400).json({ error: "Tutti i campi sono obbligatori." });
         }
@@ -22,7 +22,7 @@ exports.signup = async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = await User.create({ nome, email, password: hashedPassword });
+        const newUser = await User.create({ nome, eta, email, password: hashedPassword });
 
         const token = jwt.sign({ userId: newUser.id }, JWT_SECRET, { expiresIn: "1h" });
 
@@ -36,6 +36,7 @@ exports.signup = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
+    console.log("JWT_SECRET", JWT_SECRET);
     try {
         const { email, password } = req.body;
 

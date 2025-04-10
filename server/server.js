@@ -1,12 +1,3 @@
-process.on('uncaughtException', (err) => {
-  console.error('🔴 Eccezione non catturata:', err);
-});
-
-process.on('unhandledRejection', (reason, promise) => {
-  console.error('🔴 Reiezione non gestita:', reason);
-});
-
-
 const express = require('express');
 const db = require('./models');
 
@@ -20,7 +11,6 @@ app.use(cors());
 // ✅ LOG: Traccia ogni richiesta per debugging
 app.use((req, res, next) => {
   console.log(`📬 Richiesta ricevuta: ${req.method} ${req.url}`);
-  console.log("Headers:", req.headers);
   next();
 });
 
@@ -54,6 +44,3 @@ const PORT = 5001;
 app.listen(PORT, () => console.log(`Server avviato su http://localhost:${PORT}`));
 
 
-process.on('exit', (code) => {
-  console.log(`❌ Il processo Node è terminato con codice: ${code}`);
-});

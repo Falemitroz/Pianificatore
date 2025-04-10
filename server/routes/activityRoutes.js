@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
+const {authMiddleware} = require("../middleware/authMiddleware");
 
 const activityController = require('../controllers/activityController');
 
-router.post('/create-activity', activityController.createActivity);
-router.get('/user-activitys/:userID', activityController.getActivitiesByTrip);
+router.post('/create-activity', authMiddleware, activityController.createActivity);
+router.get('/user-activities/:tripID', activityController.getActivitiesByTrip);
 router.get('/:activityID', activityController.getActivityById);
-router.put('/:activityID', activityController.updateActivity);
-router.delete('/:activityID', activityController.deleteActivity);
+router.put('/:activityID', authMiddleware, activityController.updateActivity);
+router.delete('/:activityID', authMiddleware, activityController.deleteActivity);
 
 
 module.exports = router;
