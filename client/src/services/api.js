@@ -15,14 +15,13 @@ const getAuthHeaders = () => {
  * @param {object} [params={}] - Parametri query string (opzionale)
  * @returns {Promise<any>}
  */
-export const apiRequest = async (method, endpoint, data = {}, params = {}) => {
+export const apiRequest = async (method, endpoint, data = {}) => {
   try {
     const config = {
       method,
       url: `${API_URL}${endpoint}`,
       headers: getAuthHeaders(),
-      data,
-      params,
+      data
     };
 
     const response = await axios(config);
@@ -33,29 +32,19 @@ export const apiRequest = async (method, endpoint, data = {}, params = {}) => {
   }
 };
 
-export const getTrips = async () => {
-  try {
-    const res = await axios.get(
-      `${API_URL}/trip`, 
-      { headers: getAuthHeaders() }
-    );
-    return res.data;
-  } catch (error) {
-    console.error("Errore durante il recupero dei trips:", error);
-    throw error;
-  }
-};
+// Trip API 
+export const createTrip = async(tripData) => apiRequest("post", "/trip/create-trip", tripData); // implementata in tripList
+export const getAllTrips = async () => apiRequest("get", "/trip"); // implementata in tripList
+export const getTripById = async (tripID) => apiRequest("get", `/trip/${tripID}`); 
+export const getTripsByUser = async () => apiRequest("get", `/trip/user-trips`);
+export const updateTrip = async (tripID, updatedTripData) => apiRequest("patch", `/trip/${tripID}`, updatedTripData);
+export const deleteTrip = async (tripID) => apiRequest("delete", `/trip/${tripID}`);
 
-export const createTrip = async(tripData) => {
-  try {
-    const res = await axios.post(
-      `${API_URL}/trip/create-trip`,
-      tripData,
-      { headers: getAuthHeaders() }
-    );
-    return res.data;
-  } catch (error) {
-    console.error("Errore durante la creazione del trip:", error);
-    throw error;
-  }
-}
+// Activity API
+export const createActivity = ( tripID, activityData) => apiRequest("post", `activity/create-activity/${tripID}`, activityData);
+export const getActivitiesByTrip = (tripID) => {"get", `activity/user-activities/${tripID}`};
+export const getActivityById = (activityID) => {"get", `activity/${activityID}`};
+export const updateActivity = (activityID, updateActivityData) => {"patch", `activity/${activityID}`, updateActivityData};
+export const deleteActivity = (activityID) => {"delete", `activity/${activityID}`};
+
+

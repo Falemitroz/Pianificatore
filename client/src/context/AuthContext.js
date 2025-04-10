@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import { createTrip, getTrips} from "../services/api";
+import { createTrip, getAllTrips} from "../services/api";
 import axios from "axios";
 
 const AuthContext = createContext();
@@ -101,7 +101,7 @@ export const AuthProvider = ({ children }) => {
     signup,
     logout,
     createTrip: (tripData) => handleAction(createTrip, tripData),
-    getTrips: () => handleAction(getTrips),
+    getAllTrips: () => handleAction(getAllTrips),
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;

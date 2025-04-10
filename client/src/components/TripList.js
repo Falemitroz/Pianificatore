@@ -4,7 +4,7 @@ import TripItem from "./TripItem";
 import { useNavigate } from "react-router-dom";
 
 const TripList = () => {
-  const { user, createTrip, getTrips } = useContext(AuthContext);
+  const { user, createTrip, getAllTrips } = useContext(AuthContext);
   const [trips, setTrips] = useState([]);
   const [newTrip, setNewTrip] = useState(
     { nome: "", creatore: "", destinazione: "", dataInizio: "", dataFine: "", budget: "" });
@@ -14,7 +14,7 @@ const TripList = () => {
   useEffect(() => {
     const fetchTrips = async () => {
       try {
-        const res = await getTrips(); // recupera la lista dei viaggi
+        const res = await getAllTrips(); // recupera la lista dei viaggi
         setTrips(res); // aggiorna lo stato dei viaggi
       } catch (error) {
         console.error("Errore durante il recupero dei trips:", error);
@@ -45,7 +45,7 @@ const TripList = () => {
       // Aggiungi il nuovo viaggio alla lista
       setTrips([...trips, { tripData }]);
 
-      const res = await getTrips();
+      const res = await getAllTrips();
       setTrips(res);
 
       // Pulisci i campi di input

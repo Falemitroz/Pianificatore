@@ -50,10 +50,10 @@ exports.getActivitiesByTrip = async (req, res) => {
 
 // Recupero di un'attività specifica per id (per eventuali barre di ricerca)
 exports.getActivityById = async (req, res) => {
-    const { id } = req.params;
+    const { activityID } = req.params;
     try {
 
-        const activity = await Activity.findByPk(id);
+        const activity = await Activity.findByPk(activityID);
 
         if (!activity) return res.status(404).json({ error: 'Attività non trovata.' });
 
@@ -61,7 +61,7 @@ exports.getActivityById = async (req, res) => {
 
     } catch (error) {
 
-        console.error(`Errore durante il recupero dell'attività con ID ${id}:`, error);
+        console.error(`Errore durante il recupero dell'attività con ID ${activityID}:`, error);
         res.status(500).json({ error: "Errore del server durante il recupero dell'attività." });
     }
 };
