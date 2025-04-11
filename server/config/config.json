@@ -2,7 +2,7 @@
   "development": {
     "username": "sandro",
     "password": null,
-    "database": "planfriendstrip",
+    "database": "PlanFriendsTrip",
     "host": "localhost",
     "dialect": "postgres"
   },

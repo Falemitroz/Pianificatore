@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import { createTrip, getTrips} from "../services/api";
+import * as api from "../services/api";
 import axios from "axios";
 
 const AuthContext = createContext();
@@ -50,12 +50,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const signup = async (nome, email, password) => {
+  const signup = async (nome, eta, email, password) => {
     try {
-      const res = await axios.post(`${baseURL}/signup`, { nome, email, password });
+      const res = await axios.post(`${baseURL}/signup`, { nome, eta, email, password });
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
-        setUser({ id: res.data.id, nome: res.data.nome, email: res.data.email });
+        setUser({ id: res.data.id,
+                  nome: res.data.nome, 
+                  eta:res.data.eta, 
+                  email: res.data.email });
       }
       navigate("/dashboard");
     } catch (error) {
@@ -83,22 +86,38 @@ export const AuthProvider = ({ children }) => {
 
   };
 
-  const handleAction = async (action, ...args) => {
+  const handleAction = async (apiType, action, ...args) => {
     try {
         return await action(...args);
     } catch (error) {
-      console.error(`Errore durante l'operazione su task:`, error);
+      console.error(`Errore durante l'operazione su ${apiType}:`, error);
       throw error;
     }
   };
+  
 
   const values = {
+    // authentication API
     user,
     login,
     signup,
     logout,
-    createTrip: (TripData) => handleAction(createTrip, TripData),
-    getTrips: () => handleAction(getTrips),
+
+    // Trip API
+    createTrip: (tripData) => handleAction("Trip", api.createTrip, tripData),
+    getAllTrips: () => handleAction("Trip", api.getAllTrips),
+    getTripById: (tripID) => handleAction("Trip", tripID, api.getAllTrips),
+    getTripsByUser: () => handleAction("Trip", api.getTripsByUser),
+    updateTrip: (tripID, updatedTripData) => handleAction("Trip", api.updateTrip, tripID, updatedTripData),
+    deleteTrip: (tripID) => handleAction("Trip", api.deleteTrip,tripID),
+
+    // Activity API
+    createActivity: (activityData) => handleAction("Activity", api.createActivity, activityData),
+    getActivitiesByTrip: (tripID) => handleAction("Activity", api.getActivitiesByTrip, tripID),
+    getActivityById: (activityID) => handleAction("Activity", api.getActivityById, activityID),
+    updateActivity: (activityID, updateActivityData) => handleAction("Activity", api.updateActivity, activityID, updateActivityData),
+    deleteActivity: (activityID) => handleAction("Activity", api.deleteActivity, activityID)
+    
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
