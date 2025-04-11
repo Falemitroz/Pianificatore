@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "sandro",
-    "password": null,
-    "database": "planfriendstrip",
+    "username": "postgres",
+    "password": "luanadeveloper",
+    "database": "PlanFriendStrip",
     "host": "localhost",
     "dialect": "postgres"
   },
