@@ -42,9 +42,9 @@ export const deleteTrip = async (tripID) => apiRequest("delete", `/trip/${tripID
 
 // Activity API
 export const createActivity = (activityData) => apiRequest("post", `/activity/create-activity`, activityData);
-export const getActivitiesByTrip = (tripID) => {"get", `/activity/trip-activities`, tripID};
-export const getActivityById = (activityID) => {"get", `/activity/${activityID}`};
-export const updateActivity = (activityID, updateActivityData) => {"patch", `/activity/${activityID}`, updateActivityData};
-export const deleteActivity = (activityID) => {"delete", `/activity/${activityID}`};
+export const getActivitiesByTrip = (tripID) => apiRequest("get", `/activity/trip-activities/${tripID}`);
+export const getActivityById = (activityID) => apiRequest("get", `/activity/${activityID}`);
+export const updateActivity = (activityID, updateActivityData) => apiRequest("patch", `/activity/${activityID}`, updateActivityData);
+export const deleteActivity = (activityID) => apiRequest("delete", `/activity/${activityID}`);
 
 

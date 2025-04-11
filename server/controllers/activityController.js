@@ -31,7 +31,9 @@ exports.createActivity = async (req, res) => {
 
 // Recupero delle attività associate a un particolare viaggio
 exports.getActivitiesByTrip = async (req, res) => {
-    const { tripID } = req.body;
+    const { tripID } = req.params;
+
+    console.log("🔴tripID:", tripID);
     try {
       const trip = await Trip.findByPk(tripID);
       if (!trip) {
@@ -40,6 +42,8 @@ exports.getActivitiesByTrip = async (req, res) => {
       const activities = await Activity.findAll({
         where: { itinerario_id: tripID },
       });
+
+      console.log("🟢activityController:activities:",activities);
       res.status(200).json(activities);
     } catch (error) {
       console.error(`Errore durante il recupero delle attività per il viaggio con ID ${tripId}:`, error);
