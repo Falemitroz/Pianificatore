@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import { createTrip, getAllTrips} from "../services/api";
+import * as api from "../services/api";
 import axios from "axios";
 
 const AuthContext = createContext();
@@ -86,22 +86,38 @@ export const AuthProvider = ({ children }) => {
 
   };
 
-  const handleAction = async (action, ...args) => {
+  const handleAction = async (apiType, action, ...args) => {
     try {
         return await action(...args);
     } catch (error) {
-      console.error(`Errore durante l'operazione su task:`, error);
+      console.error(`Errore durante l'operazione su ${apiType}:`, error);
       throw error;
     }
   };
+  
 
   const values = {
+    // authentication API
     user,
     login,
     signup,
     logout,
-    createTrip: (tripData) => handleAction(createTrip, tripData),
-    getAllTrips: () => handleAction(getAllTrips),
+
+    // Trip API
+    createTrip: (tripData) => handleAction("Trip", api.createTrip, tripData),
+    getAllTrips: () => handleAction("Trip", api.getAllTrips),
+    getTripById: (tripID) => handleAction("Trip", tripID, api.getAllTrips),
+    getTripsByUser: () => handleAction("Trip", api.getTripsByUser),
+    updateTrip: (tripID, updatedTripData) => handleAction("Trip", api.updateTrip, tripID, updatedTripData),
+    deleteTrip: (tripID) => handleAction("Trip", api.deleteTrip,tripID),
+
+    // Activity API
+    createActivity: (activityData) => handleAction("Activity", api.createActivity, activityData),
+    getActivitiesByTrip: (tripID) => handleAction("Activity", api.getActivitiesByTrip, tripID),
+    getActivityById: (activityID) => handleAction("Activity", api.getActivityById, activityID),
+    updateActivity: (activityID, updateActivityData) => handleAction("Activity", api.updateActivity, activityID, updateActivityData),
+    deleteActivity: (activityID) => handleAction("Activity", api.deleteActivity, activityID)
+    
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;

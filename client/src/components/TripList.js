@@ -7,7 +7,13 @@ const TripList = () => {
   const { user, createTrip, getAllTrips } = useContext(AuthContext);
   const [trips, setTrips] = useState([]);
   const [newTrip, setNewTrip] = useState(
-    { nome: "", creatore: "", destinazione: "", dataInizio: "", dataFine: "", budget: "" });
+    { nome: "", 
+      creatore: "", 
+      destinazione: "", 
+      dataInizio: "", 
+      dataFine: "", 
+      budget: "" });
+
   const navigate = useNavigate();
 
   // 🔄 useEffect per caricare i dati una volta sola al montaggio
@@ -20,7 +26,7 @@ const TripList = () => {
         console.error("Errore durante il recupero dei trips:", error);
         if (error.response && error.response.status === 401) {
           alert("Sessione scaduta. Autenticati nuovamente per continuare.");
-          navigate("/authForm");
+          navigate("/");
         }
       }
     };
@@ -97,8 +103,6 @@ const TripList = () => {
         <button type="submit">Aggiungi Viaggio</button>
       </form>
       
-      
-
       {/* Lista dei viaggi */}
       <ul>
         {trips.length === 0 ? (

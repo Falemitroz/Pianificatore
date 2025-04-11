@@ -41,10 +41,10 @@ export const updateTrip = async (tripID, updatedTripData) => apiRequest("patch",
 export const deleteTrip = async (tripID) => apiRequest("delete", `/trip/${tripID}`);
 
 // Activity API
-export const createActivity = ( tripID, activityData) => apiRequest("post", `activity/create-activity/${tripID}`, activityData);
-export const getActivitiesByTrip = (tripID) => {"get", `activity/user-activities/${tripID}`};
-export const getActivityById = (activityID) => {"get", `activity/${activityID}`};
-export const updateActivity = (activityID, updateActivityData) => {"patch", `activity/${activityID}`, updateActivityData};
-export const deleteActivity = (activityID) => {"delete", `activity/${activityID}`};
+export const createActivity = (activityData) => apiRequest("post", `/activity/create-activity`, activityData);
+export const getActivitiesByTrip = (tripID) => {"get", `/activity/trip-activities`, tripID};
+export const getActivityById = (activityID) => {"get", `/activity/${activityID}`};
+export const updateActivity = (activityID, updateActivityData) => {"patch", `/activity/${activityID}`, updateActivityData};
+export const deleteActivity = (activityID) => {"delete", `/activity/${activityID}`};
 
 

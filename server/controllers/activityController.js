@@ -1,10 +1,10 @@
-const { Activity } = require("../models/activity");
-const { Trip }= require("../models/trip");
+const Activity = require("../models/activity");
+const Trip = require("../models/trip");
 
 // Creazione di un'attività
 exports.createActivity = async (req, res) => {
     try {
-        const { tripId, name, description, location, date, duration } = req.body;
+        const { tripId, name, description, location, date } = req.body;
       
         // chiedere ad ale se l'ID del viaggio è fornito (se l'attività è associata a un viaggio)
         if (tripId) {
@@ -14,12 +14,11 @@ exports.createActivity = async (req, res) => {
             }
         }
         const newActivity = await Activity.create({
-            tripId, // Sarà nullo se l'attività non è associata a un viaggio specifico
-            name,
-            description,
-            location,
-            date,
-            duration,
+            itinerario_id: tripId, // Sarà nullo se l'attività non è associata a un viaggio specifico
+            nome: name,
+            descrizione: description,
+            data: date,
+            luogo: location
         });
       
         res.status(201).json(newActivity);
@@ -32,14 +31,14 @@ exports.createActivity = async (req, res) => {
 
 // Recupero delle attività associate a un particolare viaggio
 exports.getActivitiesByTrip = async (req, res) => {
-    const { tripID } = req.params;
+    const { tripID } = req.body;
     try {
       const trip = await Trip.findByPk(tripID);
       if (!trip) {
         return res.status(404).json({ error: 'Viaggio non trovato.' });
       }
       const activities = await Activity.findAll({
-        where: { id: tripID },
+        where: { itinerario_id: tripID },
       });
       res.status(200).json(activities);
     } catch (error) {
@@ -69,7 +68,7 @@ exports.getActivityById = async (req, res) => {
 // Aggiornamento di un'attività
 exports.updateActivity = async (req, res) => {
     const { id } = req.params;
-    const { name, description, location, date, duration } = req.body;
+    const { name, description, location, date } = req.body;
   
     try {
       const activity = await Activity.findByPk(id);
@@ -77,11 +76,10 @@ exports.updateActivity = async (req, res) => {
         return res.status(404).json({ error: 'Attività non trovata.' });
       }
 
-      activity.name = name;
-      activity.description = description;
-      activity.location = location;
-      activity.date = date;
-      activity.duration = duration;
+      activity.nome = name;
+      activity.descrizione = description;
+      activity.data = date;
+      activity.luogo = location;
   
       await activity.save();
       res.status(200).json(activity);
