@@ -2,20 +2,26 @@ import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../context/AuthContext";
 import TripItem from "./TripItem";
 import { useNavigate } from "react-router-dom";
+import { TextField, Button, List, ListItem, ListItemText, Container, Typography,} from "@mui/material";
 
 const TripList = () => {
   const { user, getTrips } = useContext(AuthContext);
   const [trips, setTrips] = useState([]);
-  const [newTrip, setNewTrip] = useState(
-    { nome: "", creatore: "", destinazione: "", dataInizio: "", dataFine: "", budget: "" });
+  const [newTrip, setNewTrip] = useState({
+    nome: "",
+    creatore: "",
+    destinazione: "",
+    dataInizio: "",
+    dataFine: "",
+    budget: "",
+  });
   const navigate = useNavigate();
 
-  // 🔄 useEffect per caricare i dati una volta sola al montaggio
   useEffect(() => {
     const fetchTrips = async () => {
       try {
-        const res = await getTrips(); // recupera la lista dei viaggi
-        setTrips(res); // aggiorna lo stato dei viaggi
+        const res = await getTrips();
+        setTrips(res);
       } catch (error) {
         console.error("Errore durante il recupero dei trips:", error);
         if (error.response && error.response.status === 401) {
@@ -26,79 +32,95 @@ const TripList = () => {
     };
 
     fetchTrips();
-  }, []); // Eseguito solo al primo render
+  }, []);
 
   const handleAddTrip = () => {
-    if (newTrip.nome && newTrip.destinazione && newTrip.data) {
-      // Crea un nuovo viaggio da aggiungere alla lista
+    if (newTrip.nome && newTrip.destinazione && newTrip.dataInizio && newTrip.dataFine && newTrip.budget) {
       const nuovoViaggio = {
         nome: newTrip.nome,
         creatore: user.nome,
         destinazione: newTrip.destinazione,
         dataInizio: newTrip.dataInizio,
         dataFine: newTrip.dataFine,
-        budget: newTrip.budget
+        budget: newTrip.budget,
       };
 
-      // Aggiungi il nuovo viaggio alla lista
       setTrips([...trips, nuovoViaggio]);
-
-      // Pulisci i campi di input
       setNewTrip({ nome: "", creatore: "", destinazione: "", dataInizio: "", dataFine: "", budget: "" });
     }
   };
 
   return (
-    <div>
-      <h1>TripList</h1>
+    <Container maxWidth="md">
+      <Typography variant="h4" component="h1" gutterBottom>
+        TripList
+      </Typography>
 
-      {/* Form per aggiungere un nuovo viaggio */}
-      <input
-        type="text"
-        placeholder="Nome del viaggio"
+      <TextField
+        fullWidth
+        label="Nome del viaggio"
         value={newTrip.nome}
         onChange={(e) => setNewTrip({ ...newTrip, nome: e.target.value })}
         required
+        margin="normal"
       />
-      <input
-        type="text"
-        placeholder="Destinazione"
+      <TextField
+        fullWidth
+        label="Destinazione"
         value={newTrip.destinazione}
         onChange={(e) => setNewTrip({ ...newTrip, destinazione: e.target.value })}
         required
+        margin="normal"
       />
-      <input
-        type="text"
-        placeholder="Partenza"
+       <TextField
+        fullWidth
+        label="Partenza"
+        type="date"
+        InputLabelProps={{
+          shrink: true,
+        }}
         value={newTrip.dataInizio}
         onChange={(e) => setNewTrip({ ...newTrip, dataInizio: e.target.value })}
         required
+        margin="normal"
       />
-      <input
-        type="text"
-        placeholder="Ritorno"
+      <TextField
+        fullWidth
+        label="Ritorno"
+         type="date"
+        InputLabelProps={{
+          shrink: true,
+        }}
         value={newTrip.dataFine}
         onChange={(e) => setNewTrip({ ...newTrip, dataFine: e.target.value })}
         required
+        margin="normal"
       />
-      <input
-        type="integer"
-        placeholder="Budget"
+      <TextField
+        fullWidth
+        label="Budget"
+        type="number"
         value={newTrip.budget}
         onChange={(e) => setNewTrip({ ...newTrip, budget: e.target.value })}
         required
+        margin="normal"
       />
-      <button onClick={handleAddTrip}>Aggiungi Viaggio</button>
+      <Button variant="contained" color="primary" onClick={handleAddTrip}>
+        Aggiungi Viaggio
+      </Button>
 
-      {/* Lista dei viaggi */}
-      <ul>
+      <List>
         {trips.length === 0 ? (
-          <p>Nessun viaggio disponibile</p>
+          <Typography variant="body1">Nessun viaggio disponibile</Typography>
         ) : (
-          trips.map((trip, index) => <TripItem key={index} trip={trip} />)
+          trips.map((trip, index) => (
+            <ListItem key={index}>
+              <ListItemText primary={trip.nome} secondary={`${trip.destinazione} (${trip.dataInizio} - ${trip.dataFine}) - Budget: ${trip.budget}€`} />
+            </ListItem>
+          ))
         )}
-      </ul>
-    </div>
+      </List>
+    </Container>
   );
 };
 
