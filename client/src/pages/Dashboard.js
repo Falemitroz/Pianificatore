@@ -1,10 +1,11 @@
 import React from 'react';
-import UserProfile from '../components/UserProfile';
+import ResponsiveAppBar from '../components/ResponsiveAppBar';
 
 const Dashboard = () => {
     return (
         <>
-            <UserProfile />
+         <ResponsiveAppBar />
+         <h1>lista Viaggi</h1>
             <a href='/trip-details'>TripDetails</a>
         </>
     );

@@ -1,5 +1,8 @@
 import React, { useContext, useState } from "react";
 import AuthContext from "../context/AuthContext";
+import '../styles/Login.css';
+import { IoIosCloseCircleOutline } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
 
@@ -9,6 +12,8 @@ const Signup = () => {
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
     const [ error, setError ] = useState("");
+    
+    const navigate=useNavigate();
 
     const handleSignup = async (e) => {
         e.preventDefault();
@@ -21,7 +26,8 @@ const Signup = () => {
     };
 
     return (
-        <div>
+        <div className="logintext">  
+          <IoIosCloseCircleOutline onClick={() => navigate("/")} className="hometext" />
             <h2>Signup</h2>
             {error && <p>{error}</p>}
             <form onSubmit={handleSignup}>

@@ -1,5 +1,9 @@
 import React, { useContext, useState } from "react";
 import AuthContext from "../context/AuthContext";
+import Modal from "../components/Modal";
+import "../styles/Login.css"
+import { IoIosCloseCircleOutline } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
 
@@ -8,6 +12,9 @@ const Login = () => {
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
     const [ error, setError ] = useState("");
+    const [ showModal, setShowModal ] = useState(false);
+
+    const navigate=useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -16,13 +23,25 @@ const Login = () => {
             console.log("Login effettuato con successo");
         } catch (error) {
             setError(error.message);
+            setShowModal(true);
         }
     };
 
     return (
-        <div>
+        
+        <div className="logintext"> 
+        <IoIosCloseCircleOutline onClick={() => navigate("/")} className="hometext" />
+        
             <h2>Login</h2>
-            {error && <p>{error}</p>}
+
+            <Modal 
+                isOpen={showModal}
+                onClose={() => setShowModal(false)}
+                title="Errore di Login"
+            >
+                {error}
+            </Modal>
+
             <form onSubmit={handleLogin}>
                 <input 
                     type="email" 
