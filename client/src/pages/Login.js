@@ -1,5 +1,7 @@
 import React, { useContext, useState } from "react";
 import AuthContext from "../context/AuthContext";
+import Modal from "../components/Modal";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
 
@@ -7,7 +9,11 @@ const Login = () => {
 
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
+
     const [ error, setError ] = useState("");
+    const [ showDetails, setShowDetails ] = useState(true);
+
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -20,8 +26,11 @@ const Login = () => {
     };
 
     return (
-        <div>
-            <h2>Login</h2>
+        <Modal
+            isOpen={showDetails}
+            onClose={() => {setShowDetails(false); navigate("/")}}
+            title="Login">
+
             {error && <p>{error}</p>}
             <form onSubmit={handleLogin}>
                 <input 
@@ -39,7 +48,7 @@ const Login = () => {
                 <button type="submit">Login</button>            
             </form>
             <a href="/signup">Non hai un account? Registrati.</a>
-        </div>
+        </Modal>
     );
 };
 

@@ -1,0 +1,94 @@
+.trip-container {
+    max-width: 700px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .trip-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .trip-dates {
+    font-size: 0.9rem;
+    color: #777;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .trip-destination {
+    font-size: 1.1rem;
+    text-align: center;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .trip-budget {
+    font-size: 1rem;
+    text-align: center;
+    color: #555;
+    margin-bottom: 1.5rem;
+  }
+  
+  .trip-divider {
+    margin: 1.5rem 0;
+  }
+  
+  .trip-itinerary {
+    margin-top: 1rem;
+  }
+  
+  .trip-subtitle {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  
+  .trip-activities {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .trip-activity {
+    background-color: #f5f5f5;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .activity-date {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.3rem;
+  }
+  
+  .activity-name {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+  
+  .activity-description {
+    color: #444;
+    font-size: 0.95rem;
+  }
+  
+  .no-activities {
+    color: #999;
+    font-style: italic;
+  }
+  
+  .trip-loading {
+    text-align: center;
+    margin-top: 3rem;
+    font-size: 1.1rem;
+    color: #777;
+  }
+  
