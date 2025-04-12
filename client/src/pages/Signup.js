@@ -1,25 +1,24 @@
 import React, { useContext, useState } from "react";
 import AuthContext from "../context/AuthContext";
-import Modal from "../components/Modal";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import '../styles/Login.css';
 
 const Signup = () => {
 
     const { signup } = useContext(AuthContext);
 
     const [ name, setName ] = useState("");
-    const [ eta, setEta ] = useState("")
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
     const [ error, setError ] = useState("");
-
-    const [ showModal, setShowModal ] = useState(true);
-    const navigate = useNavigate();
+    
+    const navigate=useNavigate();
 
     const handleSignup = async (e) => {
         e.preventDefault();
         try {
-            await signup(name, eta, email, password);
+            await signup(name, email, password);
             console.log("Registrazione effettuata con successo");
         } catch (error) {
             setError(error.message);
@@ -27,11 +26,9 @@ const Signup = () => {
     };
 
     return (
-        <Modal
-            isOpen={showModal}
-            onClose={() => {setShowModal(false); navigate("/")}}
-            title="Signup">
-
+        <div className="logintext">  
+          <IoIosCloseCircleOutline onClick={() => navigate("/")} className="hometext" />
+            <h2>Signup</h2>
             {error && <p>{error}</p>}
             <form onSubmit={handleSignup}>
                 <input 
@@ -39,12 +36,6 @@ const Signup = () => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Nome Utente" 
-                    required/>
-                <input 
-                    type="integer" 
-                    value={eta}
-                    onChange={(e) => setEta(e.target.value)}
-                    placeholder="Età" 
                     required/>
                 <input 
                     type="email" 
@@ -61,7 +52,7 @@ const Signup = () => {
                 <button type="submit">Registrati</button>            
             </form>
             <a href="/login">Hai già un account? Accedi.</a>
-        </Modal>
+        </div>
     );
 };
 
