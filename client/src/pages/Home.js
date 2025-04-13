@@ -4,15 +4,26 @@ import { GiTakeMyMoney } from "react-icons/gi";
 import { GiThreeFriends } from "react-icons/gi";
 import { IoAirplaneOutline } from "react-icons/io5";
 import { BiHotel } from "react-icons/bi";
-import Navbar from '../components/Navbar';
 import backgroundImg from '../assets/viaggi-di-gruppo.jpg';
 import AuthContext from '../context/AuthContext';
+import { IoLogoAndroid } from "react-icons/io";
+import { IoLogoApple } from "react-icons/io";
+import { FaCcVisa, } from "react-icons/fa";
+import { FaCcMastercard } from "react-icons/fa";
+import { FaCcAmex } from "react-icons/fa6";
+import { BsPaypal } from "react-icons/bs";
+import { FaCcApplePay } from "react-icons/fa";
+import { FaGooglePay } from "react-icons/fa6";
 
 import '../styles/Home.css';
 
 const Home = () => {
 
 const { user } = useContext(AuthContext);
+
+const footer = document.getElementById("footer"); 
+   
+
 
  const navigate = useNavigate();
 
@@ -41,7 +52,6 @@ const { user } = useContext(AuthContext);
     return (
         <>
         <div>
-            <Navbar />
 
             {/* Immagine di sfondo con testo sopra */}
             <div
@@ -79,7 +89,7 @@ const { user } = useContext(AuthContext);
             }}
             >
         {!user && 
-            <button className="hero-button" onClick={() => navigate("/login")}>
+            <button className="hero-button" onClick={() => navigate("/signup")}>
                 Inizia ora
             </button>
         }
@@ -103,8 +113,41 @@ const { user } = useContext(AuthContext);
                 </div>
             ))}
         </div>
-          
-            
+
+        <footer className="footer">
+      <div className="app-section">
+        <h2>Scarica la nostra app</h2>
+        <div className="icons">
+          <IoLogoAndroid />
+          <IoLogoApple />
+        </div>
+      </div>
+
+      <div className="info-section">
+        <h2>Per conoscerci:</h2>
+        <p>Chi siamo</p>
+        <p>Condizioni generali</p>
+        <p>Informativa sulla privacy</p>
+        <p>Cookie policy</p>
+        <p>Gestisci i cookie</p>
+      </div>
+
+
+       <div className="pay-section">
+        <h2>
+           Puoi pagare tramite:
+        </h2>
+        <div className="icons">
+        <FaCcVisa />
+        <FaCcMastercard />
+        <FaCcAmex />
+        <BsPaypal />
+        <FaCcApplePay />
+        <FaGooglePay />
+        </div>
+     </div> 
+    </footer>
+
         </>
         
     );

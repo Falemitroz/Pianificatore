@@ -4,9 +4,8 @@ const User = require("../models/user");
 // 🔹 Crea un nuovo viaggio
 exports.createTrip = async (req, res) => {
     try {
-        const creatore_id = req.user.userId;
 
-        const { nome, destinazione, dataInizio, dataFine, budget } = req.body;
+        const { nome, destinazione, dataInizio, dataFine, budget, creatore } = req.body;
 
         const newTrip = await Trip.create({
             nome,
@@ -14,7 +13,8 @@ exports.createTrip = async (req, res) => {
             dataInizio,
             dataFine,
             budget,
-            creatore_id
+            creatore,
+            creatore_id: req.user.userId
         });
 
         res.status(201).json(newTrip);
@@ -83,6 +83,8 @@ exports.updateTrip = async (req, res) => {
     try {
         const { tripID } = req.params;
         const { nome, destinazione, dataInizio, dataFine, budget } = req.body;
+
+        console.log("tripData:", req.body);
 
         const trip = await Trip.findByPk(tripID);
 

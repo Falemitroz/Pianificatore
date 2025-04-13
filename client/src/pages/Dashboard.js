@@ -6,7 +6,6 @@ import TripList from '../components/TripList';
 const Dashboard = () => {
     return (
         <>
-            <Navbar />
             <TripList />
         </>
     );

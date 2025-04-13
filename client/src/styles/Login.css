@@ -67,20 +67,20 @@
   }
   
   .hometext{
+    margin-top: 70px;
     position: absolute;
     top: 20px;
     left: 20px;
     background: none;
     border: none;
-    color: #000;
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
     text-decoration: none;
     cursor: pointer;
     transition: transform 0.2s;
+    color: #0056b3;
   }
     
-  .hometext:hover {
-        background-color: white;     /* Blu leggermente più scuro */
+  .hometext:hover {    /* Blu leggermente più scuro */
         transform: scale(1.05);        /* Leggero ingrandimento al passaggio del mouse */
   }

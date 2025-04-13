@@ -4,21 +4,23 @@ const Trip = require("../models/trip");
 // Creazione di un'attività
 exports.createActivity = async (req, res) => {
     try {
-        const { tripId, name, description, location, date } = req.body;
+        const { itinerario_id, nome, descrizione, luogo, data } = req.body;
+
+        console.log("body", req.body);
       
         // chiedere ad ale se l'ID del viaggio è fornito (se l'attività è associata a un viaggio)
-        if (tripId) {
-            const trip = await Trip.findByPk(tripId);
+        if (itinerario_id) {
+            const trip = await Trip.findByPk(itinerario_id);
             if (!trip) {
                 return res.status(404).json({ error: 'Viaggio non trovato.' });
             }
         }
         const newActivity = await Activity.create({
-            itinerario_id: tripId, // Sarà nullo se l'attività non è associata a un viaggio specifico
-            nome: name,
-            descrizione: description,
-            data: date,
-            luogo: location
+            itinerario_id: itinerario_id, // Sarà nullo se l'attività non è associata a un viaggio specifico
+            nome: nome,
+            descrizione: descrizione,
+            data: data,
+            luogo: luogo
         });
       
         res.status(201).json(newActivity);

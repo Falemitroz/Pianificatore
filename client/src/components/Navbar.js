@@ -13,7 +13,8 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import AuthContext from "../context/AuthContext";
 
@@ -23,20 +24,23 @@ import { Link } from 'react-router-dom';
 
 
 const pages = [
-  {name:'Dashboard', path:'/dashboard'},
-  ];
+];
 const settings = [
-  { name: 'Profile', path:'/UserProfile'},
+  { name: 'Itinerari', path:'/dashboard'},
+  { name: 'Profile', path:'/user-profile'},
   { name: 'Logout',path:'/'}
 ];
 
 
+
 function Navbar() {
   
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout, profileImage } = useContext(AuthContext);
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const navigate = useNavigate();
   
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -75,9 +79,12 @@ function Navbar() {
           <Typography //scritta PlanFriendTrip vicino logo
               variant="h6"
               noWrap
-              component="a"
-              href="/"
+              component="p"
+              onClick={() => navigate('/')}
               sx={{
+
+                  width: 200,
+
                   mr: 2,
                   display: { xs: 'none', md: 'flex' },
                   fontFamily: 'inherit',
@@ -86,6 +93,10 @@ function Navbar() {
                   marginLeft:2,
                   color: 'inherit',
                   textDecoration: 'none',
+                  cursor: 'pointer',
+                  "&:hover": {
+                    color: '#043f78',
+                  },
                 
               }}
           >
@@ -166,10 +177,14 @@ function Navbar() {
               </Button>
             ))}
         </Box>}
+        {user && 
         <Box sx={{ flexGrow: 0 }}>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <Avatar 
+                alt={user.nome}
+                src={profileImage || '/static/images/avatar/2.jpg'}
+              />
             </IconButton>
           </Tooltip>
 
@@ -202,6 +217,7 @@ function Navbar() {
               )}
 
           </Box>
+          }
         </Toolbar>
       </Container>
     </AppBar>

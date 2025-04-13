@@ -11,11 +11,17 @@ export const AuthProvider = ({ children }) => {
     const storedUser = localStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;
   });
+  const [profileImage, setProfileImage] = useState(null);
 
   const [token, setToken] = useState(localStorage.getItem("token"));
   const baseURL = "http://localhost:5001/auth";
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const savedImage = localStorage.getItem('profileImage');
+    if (savedImage) setProfileImage(savedImage);
+  }, []);
 
   // Verifica se il token è ancora valido
   useEffect(() => {
@@ -55,6 +61,7 @@ export const AuthProvider = ({ children }) => {
       const res = await axios.post(`${baseURL}/signup`, { nome, eta, email, password });
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user", JSON.stringify({ id: res.data.id, nome: res.data.nome, email: res.data.email }));
         setUser({ id: res.data.id,
                   nome: res.data.nome, 
                   eta:res.data.eta, 
@@ -99,6 +106,8 @@ export const AuthProvider = ({ children }) => {
   const values = {
     // authentication API
     user,
+    profileImage,
+    setProfileImage,
     login,
     signup,
     logout,

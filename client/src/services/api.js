@@ -37,14 +37,14 @@ export const createTrip = async(tripData) => apiRequest("post", "/trip/create-tr
 export const getAllTrips = async () => apiRequest("get", "/trip"); // implementata in tripList
 export const getTripById = async (tripID) => apiRequest("get", `/trip/${tripID}`); 
 export const getTripsByUser = async () => apiRequest("get", `/trip/user-trips`);
-export const updateTrip = async (tripID, updatedTripData) => apiRequest("patch", `/trip/${tripID}`, updatedTripData);
+export const updateTrip = async (tripID, updatedTripData) => apiRequest("put", `/trip/${tripID}`, updatedTripData);
 export const deleteTrip = async (tripID) => apiRequest("delete", `/trip/${tripID}`);
 
 // Activity API
 export const createActivity = (activityData) => apiRequest("post", `/activity/create-activity`, activityData);
 export const getActivitiesByTrip = (tripID) => apiRequest("get", `/activity/trip-activities/${tripID}`);
 export const getActivityById = (activityID) => apiRequest("get", `/activity/${activityID}`);
-export const updateActivity = (activityID, updateActivityData) => apiRequest("patch", `/activity/${activityID}`, updateActivityData);
+export const updateActivity = (activityID, updateActivityData) => apiRequest("put", `/activity/${activityID}`, updateActivityData);
 export const deleteActivity = (activityID) => apiRequest("delete", `/activity/${activityID}`);
 
 

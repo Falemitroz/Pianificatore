@@ -28,7 +28,7 @@ exports.signup = async (req, res) => {
 
         console.log("Registrazione riuscita per utente:", newUser.id);
 
-        res.status(201).json({ id: newUser.id, nome: newUser.nome, token });
+        res.status(201).json({ id: newUser.id, nome: newUser.nome, email: newUser.email, token });
     } catch (error) {
         console.error("Errore durante la registrazione:", error);
         res.status(500).json({ error: "Errore del server durante la registrazione." });
@@ -63,7 +63,7 @@ exports.login = async (req, res) => {
 
         console.log("Login riuscito per utente:", user.id);
 
-        res.status(200).json({ id: user.id, nome: user.nome, token });
+        res.status(200).json({ id: user.id, nome: user.nome, email: user.email, token });
     } catch (error) {
         console.error("Errore durante il login:", error);
         res.status(500).json({ error: "Errore del server durante il login." });

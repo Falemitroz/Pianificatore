@@ -15,6 +15,9 @@ module.exports = {
       creatore_id: {
         type: Sequelize.UUID
       },
+      creatore: {
+        type: Sequelize.STRING
+      },
       data_inizio: {
         type: Sequelize.DATE
       },

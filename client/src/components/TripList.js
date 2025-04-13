@@ -2,26 +2,28 @@ import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../context/AuthContext";
 import TripItem from "./TripItem";
 import { useNavigate } from "react-router-dom";
+import { TextField, Button, List, Container, Typography, Dialog, DialogTitle, DialogContent, DialogActions, Box } from "@mui/material";
 
 const TripList = () => {
   const { user, createTrip, getAllTrips } = useContext(AuthContext);
   const [trips, setTrips] = useState([]);
-  const [newTrip, setNewTrip] = useState(
-    { nome: "", 
-      creatore: "", 
-      destinazione: "", 
-      dataInizio: "", 
-      dataFine: "", 
-      budget: "" });
+  const [open, setOpen] = useState(false);
+  const [newTrip, setNewTrip] = useState({
+    nome: "",
+    creatore: "",
+    destinazione: "",
+    dataInizio: "",
+    dataFine: "",
+    budget: "",
+  });
 
   const navigate = useNavigate();
 
-  // 🔄 useEffect per caricare i dati una volta sola al montaggio
   useEffect(() => {
     const fetchTrips = async () => {
       try {
-        const res = await getAllTrips(); // recupera la lista dei viaggi
-        setTrips(res); // aggiorna lo stato dei viaggi
+        const res = await getAllTrips();
+        setTrips(res);
       } catch (error) {
         console.error("Errore durante il recupero dei trips:", error);
         if (error.response && error.response.status === 401) {
@@ -32,10 +34,14 @@ const TripList = () => {
     };
 
     fetchTrips();
-  }, []); // Eseguito solo al primo render
+  }, []);
 
-  const handleAddTrip = async(e) => {
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleAddTrip = async (e) => {
     e.preventDefault();
+    try {
       const tripData = {
         nome: newTrip.nome,
         creatore: user.nome,
@@ -43,75 +49,116 @@ const TripList = () => {
         dataInizio: newTrip.dataInizio,
         dataFine: newTrip.dataFine,
         budget: newTrip.budget
-      }
+      };
 
       await createTrip(tripData);
+      const updatedTrips = await getAllTrips();
+      setTrips(updatedTrips);
+      setNewTrip({
+        nome: "",
+        creatore: "",
+        destinazione: "",
+        dataInizio: "",
+        dataFine: "",
+        budget: "",
+      });
+      handleClose();
+    } catch (error) {
+      console.error("Errore durante la creazione del viaggio:", error);
+    }
+  };
 
-
-      // Aggiungi il nuovo viaggio alla lista
-      setTrips([...trips, { tripData }]);
-
-      const res = await getAllTrips();
-      setTrips(res);
-
-      // Pulisci i campi di input
-      setNewTrip({ nome: "", creatore: "", destinazione: "", dataInizio: "", dataFine: "", budget: "" });
-
+  const refreshTrips = async () => {
+    const updatedTrips = await getAllTrips();
+    setTrips(updatedTrips);
   };
 
   return (
-    <div>
-      <h1>TripList</h1>
+    <Container maxWidth="md" sx={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "50px" }}>
 
-      {/* Form per aggiungere un nuovo viaggio */}
-      <form onSubmit={handleAddTrip}>
-          <input
-          type="text"
-          placeholder="Nome del viaggio"
-          value={newTrip.nome}
-          onChange={(e) => setNewTrip({ ...newTrip, nome: e.target.value })}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Destinazione"
-          value={newTrip.destinazione}
-          onChange={(e) => setNewTrip({ ...newTrip, destinazione: e.target.value })}
-          required
-        />
-        <input
-          type="date"
-          placeholder="Partenza"
-          value={newTrip.dataInizio}
-          onChange={(e) => setNewTrip({ ...newTrip, dataInizio: e.target.value })}
-          required
-        />
-        <input
-          type="date"
-          placeholder="Ritorno"
-          value={newTrip.dataFine}
-          onChange={(e) => setNewTrip({ ...newTrip, dataFine: e.target.value })}
-          required
-        />
-        <input
-          type="integer"
-          placeholder="Budget"
-          value={newTrip.budget}
-          onChange={(e) => setNewTrip({ ...newTrip, budget: e.target.value })}
-          required
-        />
-        <button type="submit">Aggiungi Viaggio</button>
-      </form>
-      
+      <Button variant="contained" color="primary" onClick={handleOpen} sx={{ mb: 3, marginTop: "50px", backgroundColor: "#50a6db" }}>
+        Aggiungi Viaggio
+      </Button>
+
+      {/* 🔽 MODALE FORM */}
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
+        <DialogTitle>Aggiungi un nuovo viaggio</DialogTitle>
+        <DialogContent>
+          <Box component="form" onSubmit={handleAddTrip} sx={{ mt: 1 }}>
+            <TextField
+              fullWidth
+              label="Nome del viaggio"
+              value={newTrip.nome}
+              onChange={(e) => setNewTrip({ ...newTrip, nome: e.target.value })}
+              required
+              margin="normal"
+            />
+            <TextField
+              fullWidth
+              label="Destinazione"
+              value={newTrip.destinazione}
+              onChange={(e) =>
+                setNewTrip({ ...newTrip, destinazione: e.target.value })
+              }
+              required
+              margin="normal"
+            />
+            <TextField
+              fullWidth
+              label="Partenza"
+              type="date"
+              InputLabelProps={{ shrink: true }}
+              value={newTrip.dataInizio}
+              onChange={(e) =>
+                setNewTrip({ ...newTrip, dataInizio: e.target.value })
+              }
+              required
+              margin="normal"
+            />
+            <TextField
+              fullWidth
+              label="Ritorno"
+              type="date"
+              InputLabelProps={{ shrink: true }}
+              value={newTrip.dataFine}
+              onChange={(e) =>
+                setNewTrip({ ...newTrip, dataFine: e.target.value })
+              }
+              required
+              margin="normal"
+            />
+            <TextField
+              fullWidth
+              label="Budget"
+              type="number"
+              value={newTrip.budget}
+              onChange={(e) =>
+                setNewTrip({ ...newTrip, budget: e.target.value })
+              }
+              required
+              margin="normal"
+            />
+            <DialogActions sx={{ px: 0 }}>
+              <Button onClick={handleClose}>Annulla</Button>
+              <Button type="submit" variant="contained" color="primary">
+                Salva
+              </Button>
+            </DialogActions>
+          </Box>
+        </DialogContent>
+      </Dialog>
+
       {/* Lista dei viaggi */}
-      <ul>
+      <List>
         {trips.length === 0 ? (
-          <p>Nessun viaggio disponibile</p>
+          <Typography variant="body1">Nessun viaggio disponibile</Typography>
         ) : (
-          trips.map((trip, index) => <TripItem key={index} trip={trip} />)
+          trips.map((trip, index) => (
+            <TripItem key={index} trip={trip} onTripUpdated={refreshTrips}/>
+          ))
         )}
-      </ul>
-    </div>
+      </List>
+    </Container>
   );
 };
 

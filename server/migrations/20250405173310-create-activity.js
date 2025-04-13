@@ -10,7 +10,12 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       itinerario_id: {
-        type: Sequelize.UUID
+        type: Sequelize.UUID,
+        references: {
+          model: 'Trips', // Nome della tabella a cui fa riferimento
+          key: 'id' // Chiave primaria di Trips
+        },
+        onDelete: 'CASCADE', // La cancellazione a cascata
       },
       nome: {
         type: Sequelize.STRING

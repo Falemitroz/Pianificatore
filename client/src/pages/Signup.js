@@ -9,6 +9,7 @@ const Signup = () => {
     const { signup } = useContext(AuthContext);
 
     const [ name, setName ] = useState("");
+    const [ age, setAge] = useState("");
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
     const [ error, setError ] = useState("");
@@ -18,7 +19,7 @@ const Signup = () => {
     const handleSignup = async (e) => {
         e.preventDefault();
         try {
-            await signup(name, email, password);
+            await signup(name, age, email, password);
             console.log("Registrazione effettuata con successo");
         } catch (error) {
             setError(error.message);
@@ -36,6 +37,12 @@ const Signup = () => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Nome Utente" 
+                    required/>
+                <input 
+                    type="integer" 
+                    value={age}
+                    onChange={(e) => setAge(e.target.value)}
+                    placeholder="Età" 
                     required/>
                 <input 
                     type="email" 
