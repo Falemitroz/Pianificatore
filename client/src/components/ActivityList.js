@@ -3,6 +3,7 @@ import AuthContext from "../context/AuthContext";
 import ActivityItem from "./ActivityItem";
 import { List, Typography, Container, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import "../styles/TripItem.css";
+import { set } from "date-fns";
 
 const ActivityList = ({ trip }) => {
   const { getActivitiesByTrip, createActivity } = useContext(AuthContext);
@@ -21,6 +22,10 @@ const ActivityList = ({ trip }) => {
     try {
       const res = await getActivitiesByTrip(trip.id);
       setActivities(res);
+      setNome('');
+      setDescrizione('');
+      setData('');
+      setLuogo('');
     } catch (error) {
       console.error("Errore nel fetch dei dati:", error);
     }
@@ -109,10 +114,17 @@ const ActivityList = ({ trip }) => {
           />
         </DialogContent>
         <DialogActions component="form" onSubmit={handleCreateActivity}>
-          <Button onClick={handleClose} color="secondary">
+          <Button 
+            onClick={handleClose} 
+            color="primary"
+            sx={{"&:hover": { backgroundColor: "transparent" }}} >
             Annulla
           </Button>
-          <Button type="submit" onClick={handleCreateActivity} color="primary">
+          <Button 
+            type="submit" 
+            onClick={handleCreateActivity} 
+            color="primary"
+            sx={{"&:hover": { backgroundColor: "primary", color: "white" }}} >
             Salva
           </Button>
         </DialogActions>
@@ -126,7 +138,7 @@ const ActivityList = ({ trip }) => {
       ) : (
         <List className="trip-activities">
           {activities.map((activity, index) => (
-            <ActivityItem key={index} activity={activity} />
+            <ActivityItem key={index} activity={activity} listRefresh={fetchActivityData}/>
           ))}
         </List>
       )}

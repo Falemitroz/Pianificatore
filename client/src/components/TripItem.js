@@ -115,7 +115,7 @@ const TripItem = ({ trip, onTripUpdated }) => {
 
   return (
     <>
-      <Card sx={{ maxWidth: 345, marginBottom: 5 }}>
+      <Card sx={{ width: 345, marginBottom: 5 }}>
         <CardHeader
           avatar={
             <Avatar

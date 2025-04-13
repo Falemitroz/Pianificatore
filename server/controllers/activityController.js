@@ -97,16 +97,17 @@ exports.updateActivity = async (req, res) => {
 
 // Eliminazione di un'attività
 exports.deleteActivity = async (req, res) => {
-    const { id } = req.params;
+    const { activityID } = req.params;
     try {
-        const activity = await Activity.findByPk(id);
+        console.log("🔴ActivityID:", activityID);
+        const activity = await Activity.findByPk(activityID);
         if (!activity) {
           return res.status(404).json({ error: 'Attività non trovata.' });
         }
         await activity.destroy();
         res.status(204).send(); // 204 No Content: la richiesta è andata a buon fine ma non ha contenuto da inviare indietro
     } catch (error) {
-        console.error(`Errore durante l'eliminazione dell'attività con ID ${id}:`, error);
+        console.error(`Errore durante l'eliminazione dell'attività con ID ${activityID}:`, error);
         res.status(500).json({ error: "Errore del server durante l'eliminazione dell'attività." });
     }
 };
