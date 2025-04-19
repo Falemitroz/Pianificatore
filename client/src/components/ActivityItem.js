@@ -31,7 +31,7 @@ const ActivityItem = ({ activity, listRefresh }) => {
             {format(new Date(activity.data), "dd/MM/yyyy")} - {activity.luogo}
             <RiDeleteBin2Line 
               onClick={handleDeleteActivity}
-              // sx={{color:"#f44336"}} 
+              // sx={{"&:hover": { color: "red" }, cursor: "pointer"}} 
               />
           </Typography>
 

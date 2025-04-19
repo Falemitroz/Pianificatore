@@ -1,5 +1,5 @@
 .logintext {
-    height: 100vh;
+    height: 100%;
     width: 100vw;
     background-color: #0872dc37; 
     display: flex;
@@ -9,6 +9,7 @@
   }
   
   .logintext h2 {
+    margin-top: 100px;
     font-size: 2rem;
     color: #007bff;
     margin-bottom: 1rem;

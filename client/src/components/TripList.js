@@ -4,6 +4,7 @@ import TripItem from "./TripItem";
 import { useNavigate } from "react-router-dom";
 import { TextField, Button, List, Container, Typography, Dialog, DialogTitle, DialogContent, DialogActions, Box } from "@mui/material";
 
+
 const TripList = () => {
   const { user, createTrip, getAllTrips } = useContext(AuthContext);
   const [trips, setTrips] = useState([]);
@@ -103,6 +104,7 @@ const TripList = () => {
               required
               margin="normal"
             />
+
             <TextField
               fullWidth
               label="Partenza"

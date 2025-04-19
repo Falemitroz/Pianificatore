@@ -15,6 +15,8 @@ import { LiaCameraRetroSolid } from 'react-icons/lia';
 import { FaMapMarkerAlt, FaSuitcase, FaUserFriends, FaStar } from 'react-icons/fa';
 import AuthContext from '../context/AuthContext';
 
+import ExpenseTracker from '../components/ExpenseTracker';
+
 function UserProfile() {
   const { user, profileImage, setProfileImage } = useContext(AuthContext);
 
@@ -31,7 +33,7 @@ function UserProfile() {
   };
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 10, px: 2 }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 15, px: 2, mb: 5 }}>
       <Paper
         elevation={4}
         sx={{

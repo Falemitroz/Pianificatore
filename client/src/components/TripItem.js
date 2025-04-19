@@ -1,4 +1,3 @@
-// ...import (rimangono invariati)
 import React, { useState, useRef, useContext, useEffect } from "react";
 import {
   ListItem,
@@ -28,6 +27,11 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import EditIcon from "@mui/icons-material/Edit";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp"; // Aggiunto
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { format } from "date-fns";
 import { MdOutlineArrowCircleLeft, MdOutlineArrowCircleRight } from "react-icons/md";
 
@@ -51,6 +55,12 @@ const TripItem = ({ trip, onTripUpdated }) => {
     dataFine: trip.dataFine,
     budget: trip.budget,
   });
+
+  // Genera un numero casuale di like per ogni viaggio
+  const [likes, setLikes] = useState(Math.floor(Math.random() * 1000));
+
+  // Aggiungiamo una variabile per tracciare se l'utente ha già cliccato il like
+  const [liked, setLiked] = useState(false);
 
   useEffect(() => {
     const savedImages = JSON.parse(localStorage.getItem(`tripImages-${trip.id}`)) || [];
@@ -101,6 +111,13 @@ const TripItem = ({ trip, onTripUpdated }) => {
 
   const handleChange = (field) => (e) => {
     setUpdatedData({ ...updatedData, [field]: e.target.value });
+  };
+
+  const handleLikeClick = () => {
+    if (!liked) {
+      setLikes(likes + 1); // Incrementa il contatore dei like
+      setLiked(true); // Imposta il flag per segnare che il like è stato cliccato
+    }
   };
 
   const ExpandMore = styled((props) => {
@@ -193,21 +210,24 @@ const TripItem = ({ trip, onTripUpdated }) => {
 
         {/* Grid con due colonne centrate */}
         <Grid container justifyContent="space-between" alignItems="center" sx={{ px: 2, py: 1 }}>
-          <Grid item xs={6} display="flex" justifyContent="center">
+          <Grid item xs={4} display="flex" justifyContent="center">
             <IconButton 
-              aria-label="trip-details"
+              aria-label="like-trip"
               sx={{
                 "&:hover": { backgroundColor: "transparent" },
                 fontSize: "1.5rem", 
                 color: "#50a6db",
               }}
-              component="a"
-              href="/trip-details"
+              onClick={handleLikeClick} // Gestiamo il click qui
             >
-              <VisibilityIcon />
+              <ThumbUpIcon />
             </IconButton>
+            <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.5, ml: -1 }}>
+              {likes}
+            </Typography>
           </Grid>
-          <Grid item xs={6} display="flex" justifyContent="center">
+          
+          <Grid item xs={4} display="flex" justifyContent="center">
             <ExpandMore
               expand={showActivities}
               onClick={() => setShowActivities(!showActivities)}
@@ -237,7 +257,6 @@ const TripItem = ({ trip, onTripUpdated }) => {
           onChange={handleFileChange}
           style={{ display: 'none' }}
         />
-
         <Dialog open={editOpen} onClose={() => setEditOpen(false)}>
           <DialogTitle>Modifica Viaggio</DialogTitle>
           <DialogContent>

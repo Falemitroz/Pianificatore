@@ -4,9 +4,10 @@ import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import TripDetails from './pages/TripDetails';
+import TravelServices from './pages/TravelServices';
 import UserProfile from './pages/UserProfile';
 import Navbar from './components/Navbar';
+import ExpenseTracker from './components/ExpenseTracker';
 
 
 function App() {
@@ -19,7 +20,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/user-profile" element={<UserProfile />} />
-        <Route path="/trip-details" element={<TripDetails />} />
+        <Route path="/travel-services" element={<TravelServices />} />
+        <Route path="/expense-tracker" element={<ExpenseTracker/>} />
       </Routes>
     </AuthProvider>
   );

@@ -27,7 +27,7 @@ const Signup = () => {
     };
 
     return (
-        <div className="logintext">  
+        <div className="logintext" sx={{marginTop: "70px"}}>  
           <IoIosCloseCircleOutline onClick={() => navigate("/")} className="hometext" />
             <h2>Signup</h2>
             {error && <p>{error}</p>}

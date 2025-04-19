@@ -100,8 +100,16 @@ function Navbar() {
                 
               }}
           >
-          PlanFriendsTrip
+            PlanFriendsTrip
           </Typography>
+
+          <Link to="/travel-services" style={{ textDecoration: 'none', color: 'inherit', marginLeft: 200 }}>
+              Servizi di viaggio
+          </Link>
+          {user && <Link to="/expense-tracker" style={{ textDecoration: 'none', color: 'inherit'}}>
+              Gestione Spese
+          </Link>}
+
         
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, alignItems: 'center' }}>

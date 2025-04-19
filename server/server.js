@@ -35,7 +35,7 @@ db.sequelize.authenticate()
     .catch((err) => console.error('Impossibile connettersi al database:', err));
 
 // Sincronizzazione del database e dei modelli
-db.sequelize.sync({ force: false }) 
+db.sequelize.sync({ force: true }) 
     .then(() => console.log("Database & tabelle aggiornate!"))
     .catch((err) => console.error("Errore sincronizzazione database:", err));
 
